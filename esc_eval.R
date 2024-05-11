@@ -6,7 +6,7 @@ sheet_url <- "https://docs.google.com/spreadsheets/d/10a9IjubvdqqTLeghu8Vqmf2yqu
 sheet_names <- sheet_names(sheet_url)
 
 # ignore info and template sheet
-sheets_to_read <- sheet_names[!sheet_names %in% c("info", "template")]
+sheets_to_read <- sheet_names[!sheet_names %in% c("info", "template", "Jan")]
 
 esc <- 
   data.frame(
@@ -34,7 +34,7 @@ if (!all(ranks_ok)) {
 # read final ranking
 info <- read_sheet(sheet_url, "info")
 
-if (all(sort(info$final_rank) == 1:25)) {
+if (!all(sort(info$final_rank) == 1:25)) {
   stop("Invalid ranks in info!")
 }
 
