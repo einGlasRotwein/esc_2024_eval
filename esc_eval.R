@@ -24,18 +24,18 @@ for (i in sheets_to_read) {
 # run data checks: all ranks provided?
 ranks_ok <- 
   by(
-    esc$rank, esc$player, function(x) length(x) == length(unique(x))
-  )
+    esc$rank, esc$player, function(x) all(sort(x) == 1:25)
+)
 
 if (!all(ranks_ok)) {
-  stop(paste("Duplicated ranks for player(s):", paste(names(ranks_ok[!ranks_ok]), collapse = ", ")))
+  stop(paste("Invalid ranks for player(s):", paste(names(ranks_ok[!ranks_ok]), collapse = ", ")))
 }
 
 # read final ranking
 info <- read_sheet(sheet_url, "info")
 
-if (length(info$final_rank) != length(unique(info$final_rank))) {
-  stop("Duplicated ranks in info!")
+if (all(sort(info$final_rank) == 1:25)) {
+  stop("Invalid ranks in info!")
 }
 
 # add final rank to player ratings
